@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ahorcado Móvil · Prototipo</title>
+<link rel="icon" href="../../assets/favicon.png">
+<style>
+  :root {
+    --azul-oscuro: #1F3864;
+    --azul: #2E74B5;
+    --fondo: #EEF1F5;
+    --texto: #1A1A1A;
+    --secundario: #5B6573;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Roboto, "Segoe UI", system-ui, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 24px 16px;
+  }
+  .panel { max-width: 300px; }
+  h1 { font-size: 24px; margin: 0 0 4px; color: var(--azul-oscuro); }
+  p { margin: 0 0 16px; color: var(--secundario); font-size: 15px; line-height: 1.45; }
+  .lista { display: grid; gap: 6px; margin-bottom: 16px; }
+  .lista button, .tema button {
+    font: inherit; font-size: 15px; text-align: left; padding: 10px 12px; min-height: 44px;
+    border: 1px solid #D5DAE1; border-radius: 10px; background: #FFFFFF; color: var(--texto); cursor: pointer;
+  }
+  .lista button[aria-current="true"] { background: var(--azul); border-color: var(--azul); color: #FFFFFF; }
+  .tema { display: flex; gap: 6px; }
+  .tema button { flex: 1; text-align: center; }
+  .tema button[aria-pressed="true"] { background: var(--azul-oscuro); border-color: var(--azul-oscuro); color: #FFFFFF; }
+  .telefono {
+    --escala: 1;
+    width: calc(376px * var(--escala));
+    height: calc(816px * var(--escala));
+    flex-shrink: 0;
+  }
+  .marco {
+    width: 376px; height: 816px; padding: 8px; border-radius: 36px; background: #111111;
+    transform: scale(var(--escala)); transform-origin: top left;
+    box-shadow: 0 18px 40px rgba(0, 0, 0, .25);
+  }
+  .pantalla { position: relative; width: 360px; height: 800px; border-radius: 28px; overflow: hidden; background: #FFFFFF; }
+  .pantalla img { display: block; width: 360px; height: 800px; }
+  .zona {
+    position: absolute; border: 0; padding: 0; border-radius: 8px; cursor: pointer;
+    background: rgba(46, 116, 181, 0); outline-offset: 2px; transition: background .2s;
+  }
+  .zona:hover, .pantalla.pistas .zona { background: rgba(46, 116, 181, .35); }
+  @media (max-width: 720px) {
+    body { flex-direction: column; align-items: center; }
+    .panel { max-width: 376px; width: 100%; }
+  }
+</style>
+</head>
+<body>
+  <div class="telefono"><div class="marco">
+    <div class="pantalla" id="pantalla"><img id="imagen" alt=""></div>
+  </div></div>
+
+  <div class="panel">
+    <h1>El Ahorcado Móvil</h1>
+    <p>Prototipo navegable con los mockups de la app. Toca los botones de la pantalla; si tocas en otro lugar se resaltan las zonas que se pueden tocar.</p>
+    <div class="lista" id="lista"></div>
+    <div class="tema">
+      <button type="button" data-tema="claro" aria-pressed="true">Tema claro</button>
+      <button type="button" data-tema="oscuro" aria-pressed="false">Tema oscuro</button>
+    </div>
+  </div>
+
+<script>
+  const PANTALLAS = [{"id":"01-splash","nombre":"Splash","zonas":[]},{"id":"02-inicio","nombre":"Inicio","zonas":[{"zona":"zona-jugar","x":24,"y":372,"w":312,"h":52,"destino":"04-categoria"},{"zona":"zona-instrucciones","x":24,"y":444,"w":312,"h":52,"destino":"03-instrucciones"},{"zona":"zona-estadisticas","x":24,"y":508,"w":312,"h":52,"destino":"07-estadisticas"},{"zona":"zona-configuracion","x":24,"y":572,"w":312,"h":52,"destino":"08-configuracion"}]},{"id":"03-instrucciones","nombre":"Instrucciones","zonas":[{"zona":"zona-atras","x":2,"y":8,"w":48,"h":48,"destino":"atras"}]},{"id":"04-categoria","nombre":"Categoría y nivel","zonas":[{"zona":"zona-atras","x":2,"y":8,"w":48,"h":48,"destino":"atras"},{"zona":"zona-comenzar","x":16,"y":736,"w":328,"h":52,"destino":"05-juego"}]},{"id":"05-juego","nombre":"Juego","zonas":[{"zona":"zona-atras","x":4,"y":4,"w":48,"h":48,"destino":"atras"},{"zona":"zona-teclado","x":8,"y":538,"w":344,"h":256,"destino":"06-resultado-victoria"}]},{"id":"06-resultado-victoria","nombre":"Resultado: victoria","zonas":[{"zona":"zona-jugar-de-nuevo","x":48,"y":511,"w":264,"h":52,"destino":"05-juego"},{"zona":"zona-menu","x":48,"y":573,"w":264,"h":52,"destino":"02-inicio"}]},{"id":"06-resultado-derrota","nombre":"Resultado: derrota","zonas":[{"zona":"zona-jugar-de-nuevo","x":48,"y":498,"w":264,"h":52,"destino":"05-juego"},{"zona":"zona-menu","x":48,"y":560,"w":264,"h":52,"destino":"02-inicio"}]},{"id":"07-estadisticas","nombre":"Estadísticas","zonas":[{"zona":"zona-atras","x":2,"y":8,"w":48,"h":48,"destino":"atras"}]},{"id":"08-configuracion","nombre":"Configuración","zonas":[{"zona":"zona-atras","x":2,"y":8,"w":48,"h":48,"destino":"atras"}]}];
+  let tema = 'claro';
+  let actual = null;
+  const historial = [];
+  let temporizador = null;
+
+  const pantalla = document.getElementById('pantalla');
+  const imagen = document.getElementById('imagen');
+  const lista = document.getElementById('lista');
+
+  PANTALLAS.forEach((p) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = p.nombre;
+    b.dataset.id = p.id;
+    b.addEventListener('click', () => ir(p.id));
+    lista.appendChild(b);
+  });
+
+  function mostrar(id) {
+    clearTimeout(temporizador);
+    actual = PANTALLAS.find((p) => p.id === id);
+    imagen.src = 'mockups/' + tema + '/' + id + '.png';
+    imagen.alt = 'Pantalla ' + actual.nombre;
+    pantalla.querySelectorAll('.zona').forEach((z) => z.remove());
+    actual.zonas.forEach((z) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'zona';
+      b.style.left = z.x + 'px';
+      b.style.top = z.y + 'px';
+      b.style.width = z.w + 'px';
+      b.style.height = z.h + 'px';
+      b.setAttribute('aria-label', z.zona.replace('zona-', '').replace(/-/g, ' '));
+      b.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (z.destino === 'atras') volver();
+        else ir(z.destino);
+      });
+      pantalla.appendChild(b);
+    });
+    lista.querySelectorAll('button').forEach((b) => b.setAttribute('aria-current', String(b.dataset.id === id)));
+    // El splash pasa solo al inicio, como en la app
+    if (id === '01-splash') temporizador = setTimeout(() => ir('02-inicio'), 1500);
+  }
+
+  function ir(id) {
+    if (actual) historial.push(actual.id);
+    mostrar(id);
+  }
+
+  function volver() {
+    mostrar(historial.pop() || '02-inicio');
+  }
+
+  pantalla.addEventListener('click', () => {
+    pantalla.classList.add('pistas');
+    setTimeout(() => pantalla.classList.remove('pistas'), 600);
+  });
+
+  document.querySelectorAll('.tema button').forEach((b) =>
+    b.addEventListener('click', () => {
+      tema = b.dataset.tema;
+      document.querySelectorAll('.tema button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+      mostrar(actual.id);
+    }),
+  );
+
+  // Escala el teléfono para que quepa completo en la ventana
+  const telefono = document.querySelector('.telefono');
+  function ajustar() {
+    const ancho = window.innerWidth <= 720 ? window.innerWidth - 32 : Infinity;
+    const escala = Math.min(1, (window.innerHeight - 48) / 816, ancho / 376);
+    telefono.style.setProperty('--escala', String(Math.max(0.4, escala)));
+  }
+  window.addEventListener('resize', ajustar);
+  ajustar();
+
+  mostrar('01-splash');
+</script>
+</body>
+</html>
