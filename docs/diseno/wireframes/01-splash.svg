@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="800" viewBox="0 0 360 800">
+<title>Splash</title>
+<rect id="fondo" width="360" height="800" fill="#8C8C8C"/>
+<g id="logo"><circle cx="180" cy="330" r="72" fill="#B5B5B5" stroke="#FFFFFF" stroke-width="1.2" stroke-dasharray="5 4"/><text x="180" y="335" font-family="Roboto, Arial, sans-serif" font-size="14" font-weight="600" fill="#FFFFFF" text-anchor="middle">Logo</text></g><text x="180" y="450" font-family="Roboto, Arial, sans-serif" font-size="26" font-weight="800" fill="#FFFFFF" text-anchor="middle">El Ahorcado Móvil</text><text x="180" y="478" font-family="Roboto, Arial, sans-serif" font-size="15" font-weight="400" fill="#FFFFFF" text-anchor="middle">Palabras de Colombia</text><g id="cargando"><circle cx="180" cy="540" r="14" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-dasharray="20 70"/></g>
+</svg>

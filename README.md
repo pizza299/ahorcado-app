@@ -97,7 +97,7 @@ ahorcado-app/
 │   ├── storage/almacenamiento.js    → Funciones con AsyncStorage
 │   ├── theme/colores.js             → Paleta clara y oscura
 │   └── utils/dialogos.js            → Confirmaciones (Alert)
-└── docs/diseno/                → Guía de estilos, wireframes y exportación del diseño
+└── docs/diseno/                → Wireframes SVG, mockups PNG y guía de estilos para Figma
 ```
 
 ### Datos guardados en AsyncStorage
