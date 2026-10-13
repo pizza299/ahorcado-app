@@ -156,9 +156,7 @@ export default function JuegoScreen({ navigation, route }) {
             ]}
           >
             <MaterialCommunityIcons name="lightbulb-on-outline" size={20} color="#1A1A1A" />
-            <Text style={styles.textoPista}>
-              {juego.pistasDisponibles} · {PUNTOS.pista}
-            </Text>
+            <Text style={styles.textoPista}>Pista ({juego.pistasDisponibles})</Text>
           </Pressable>
         )}
       </View>

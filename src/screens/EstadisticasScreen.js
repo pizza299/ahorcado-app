@@ -90,11 +90,15 @@ export default function EstadisticasScreen() {
               {item.nombre}
             </Text>
             <Text style={[styles.detalle, { color: colores.textoSecundario }]} numberOfLines={1}>
-              {nombreCategoria(item.categoria)} · {NIVELES[item.nivel]?.nombre} ·{' '}
+              {nombreCategoria(item.categoria)} · {NIVELES[item.nivel]?.nombre}
+            </Text>
+          </View>
+          <View style={styles.columnaPuntaje}>
+            <Text style={[styles.puntaje, { color: colores.primario }]}>{item.puntaje}</Text>
+            <Text style={[styles.detalle, { color: colores.textoSecundario }]}>
               {formatearFecha(item.fecha)}
             </Text>
           </View>
-          <Text style={[styles.puntaje, { color: colores.primario }]}>{item.puntaje}</Text>
         </View>
       )}
     />
@@ -170,6 +174,9 @@ const styles = StyleSheet.create({
   },
   detalle: {
     fontSize: 14,
+  },
+  columnaPuntaje: {
+    alignItems: 'flex-end',
   },
   puntaje: {
     fontSize: 20,
