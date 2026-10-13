@@ -86,8 +86,6 @@ function crearPartida(categoria, nivel, anterior) {
   };
 }
 
-const sumar = (puntaje, puntos) => Math.max(0, puntaje + puntos);
-
 function terminar(estado, gano, motivo = null) {
   const vidas = MAX_ERRORES - estado.errores;
   const bono = gano ? PUNTOS.victoria + vidas * PUNTOS.porVida : 0;
@@ -98,7 +96,8 @@ function terminar(estado, gano, motivo = null) {
     motivo,
     bono,
     puntaje: subtotal,
-    puntajeFinal: subtotal * estado.multiplicador,
+    // El subtotal puede ser negativo durante la partida; el final nunca baja de 0
+    puntajeFinal: Math.max(0, subtotal * estado.multiplicador),
   };
 }
 
@@ -123,14 +122,14 @@ export function reducer(estado, accion) {
         return verificarVictoria({
           ...estado,
           letrasAcertadas: [...estado.letrasAcertadas, letra],
-          puntaje: sumar(estado.puntaje, apariciones * PUNTOS.acierto),
+          puntaje: estado.puntaje + apariciones * PUNTOS.acierto,
         });
       }
       const fallo = {
         ...estado,
         letrasFalladas: [...estado.letrasFalladas, letra],
         errores: estado.errores + 1,
-        puntaje: sumar(estado.puntaje, PUNTOS.fallo),
+        puntaje: estado.puntaje + PUNTOS.fallo,
       };
       return fallo.errores >= MAX_ERRORES ? terminar(fallo, false, 'errores') : fallo;
     }
@@ -140,7 +139,7 @@ export function reducer(estado, accion) {
       const conCosto = {
         ...estado,
         pistasDisponibles: estado.pistasDisponibles - 1,
-        puntaje: sumar(estado.puntaje, PUNTOS.pista),
+        puntaje: estado.puntaje + PUNTOS.pista,
       };
       // Primera pista: la descripción. Segunda pista: una letra al azar.
       if (!estado.pistaVisible) return { ...conCosto, pistaVisible: true };

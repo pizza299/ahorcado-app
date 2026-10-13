@@ -33,7 +33,9 @@ export function AppProvider({ datosIniciales, children }) {
 
   // Se llama una vez al terminar cada partida.
   const registrarPartida = useCallback(({ nombre, categoria, nivel, puntaje, gano }) => {
-    setEstadisticas((actual) => actualizarEstadisticas(actual, { nombre, categoria, puntaje, gano }));
+    setEstadisticas((actual) =>
+      actualizarEstadisticas(actual, { nombre, categoria, puntaje, gano }),
+    );
     setRanking((actual) =>
       actualizarRanking(actual, {
         nombre,
@@ -62,7 +64,15 @@ export function AppProvider({ datosIniciales, children }) {
       registrarPartida,
       borrarEstadisticas,
     }),
-    [jugador, config, actualizarConfig, estadisticas, ranking, registrarPartida, borrarEstadisticas],
+    [
+      jugador,
+      config,
+      actualizarConfig,
+      estadisticas,
+      ranking,
+      registrarPartida,
+      borrarEstadisticas,
+    ],
   );
 
   return <AppContext.Provider value={valor}>{children}</AppContext.Provider>;

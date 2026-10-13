@@ -41,11 +41,24 @@ export const CATEGORIAS = [
 
 export const ALEATORIA = { id: 'aleatoria', nombre: 'Aleatoria', icono: 'dice-multiple-outline' };
 
+// Textos para mostrar las reglas de un nivel en pantalla.
+export function describirNivel(nivel) {
+  const letras = nivel.max === Infinity ? `${nivel.min} o más` : `${nivel.min} a ${nivel.max}`;
+  const pistas =
+    nivel.pistas === 0
+      ? 'Sin pistas'
+      : `${nivel.pistas} ${nivel.pistas === 1 ? 'pista' : 'pistas'}`;
+  const tiempo = nivel.tiempo ? `${nivel.tiempo} s` : 'Sin límite';
+  return { letras: `${letras} letras`, pistas, tiempo };
+}
+
 export function nombreCategoria(id) {
   if (id === ALEATORIA.id) return ALEATORIA.nombre;
   return CATEGORIAS.find((c) => c.id === id)?.nombre ?? id;
 }
 
+// Una palabra por línea para que el banco sea fácil de leer y editar.
+// prettier-ignore
 export const PALABRAS = [
   // ---------- Capitales de Colombia ----------
   { palabra: 'TUNJA', categoria: 'capitales', pista: 'Capital de Boyacá' },
