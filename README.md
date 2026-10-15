@@ -9,11 +9,11 @@ Estudiante: **Andres Parada** · Docente: Carlos Carrascal
 
 | Entregable | Enlace |
 | --- | --- |
-| Diseño (Figma) wireframes| https://www.figma.com/design/EUlzFLU7kyQIGEqZjRSG8m/Ahorcado-Andres-Parada?node-id=0-1&t=guyGf5wclakVQFtL-1 |
-Mockups | https://www.figma.com/design/EUlzFLU7kyQIGEqZjRSG8m/Ahorcado-Andres-Parada?node-id=2-8&t=guyGf5wclakVQFtL-1 |
-Guia de Estilos Y Prototipo | https://www.figma.com/design/EUlzFLU7kyQIGEqZjRSG8m/Ahorcado-Andres-Parada?node-id=2-9&t=guyGf5wclakVQFtL-1 |
+| Diseño en Figma: wireframes | https://www.figma.com/design/EUlzFLU7kyQIGEqZjRSG8m/Ahorcado-Andres-Parada?node-id=0-1&t=guyGf5wclakVQFtL-1 |
+| Diseño en Figma: mockups | https://www.figma.com/design/EUlzFLU7kyQIGEqZjRSG8m/Ahorcado-Andres-Parada?node-id=2-8&t=guyGf5wclakVQFtL-1 |
+| Diseño en Figma: guía de estilos y prototipo | https://www.figma.com/design/EUlzFLU7kyQIGEqZjRSG8m/Ahorcado-Andres-Parada?node-id=2-9&t=guyGf5wclakVQFtL-1 |
 | APK para Android | https://expo.dev/accounts/pizza299/projects/ahorcado-app/builds/b5cea940-1a3f-4a89-b0a1-742a4dfe84d9 |
-| Video explicativo | _pendiente_ |
+| Video explicativo | https://drive.google.com/file/d/1y2-tGmuamN0rqok41Xnyc3xfnKaN56vs/view?usp=drive_link |
 
 ## Capturas
 
