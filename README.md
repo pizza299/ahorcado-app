@@ -19,9 +19,9 @@ Guia de Estilos Y Prototipo | https://www.figma.com/design/EUlzFLU7kyQIGEqZjRSG8
 
 | Inicio | Categoría y nivel | Juego | Resultado | Estadísticas |
 | --- | --- | --- | --- | --- |
-| _captura_ | _captura_ | _captura_ | _captura_ | _captura_ |
+| <img src="docs/capturas/01-inicio.jpg" alt="Pantalla de inicio" width="180"> | <img src="docs/capturas/02-categoria.jpg" alt="Selección de categoría y nivel" width="180"> | <img src="docs/capturas/03-juego.jpg" alt="Partida en curso" width="180"> | <img src="docs/capturas/04-resultado.jpg" alt="Modal de victoria" width="180"> | <img src="docs/capturas/05-estadisticas.jpg" alt="Estadísticas y top 10" width="180"> |
 
-> Las capturas deben tomarse en el celular con la app instalada desde el APK.
+> Capturas tomadas en un celular Android con la app instalada desde el APK. La de inicio está en modo avión: la app funciona sin internet.
 
 ## Funcionalidades
 
